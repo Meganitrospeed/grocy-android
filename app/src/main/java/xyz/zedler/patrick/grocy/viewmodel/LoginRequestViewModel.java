@@ -56,6 +56,7 @@ import xyz.zedler.patrick.grocy.util.ConfigUtil;
 import xyz.zedler.patrick.grocy.util.PrefsUtil;
 import xyz.zedler.patrick.grocy.web.NetworkQueue.QueueItem;
 import xyz.zedler.patrick.grocy.web.ReverseProxyAuthDetector;
+import xyz.zedler.patrick.grocy.web.ReverseProxyAuthManager;
 
 public class LoginRequestViewModel extends BaseViewModel {
 
@@ -161,6 +162,7 @@ public class LoginRequestViewModel extends BaseViewModel {
               .putString(Constants.PREF.SERVER_URL, serverUrl)
               .putString(Constants.PREF.API_KEY, apiKey)
               .apply();
+          ReverseProxyAuthManager.configure(serverUrl);
           if (useHassLoginFlow) {
             sharedPrefs.edit().putString(
                 Constants.PREF.HOME_ASSISTANT_SERVER_URL,

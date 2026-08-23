@@ -220,11 +220,10 @@ public class MainActivity extends AppCompatActivity {
     setContentView(binding.getRoot());
 
     ReverseProxyAuthManager.getAuthenticationRequired().observe(this, url -> {
-      if (url == null || reverseProxyAuthOpen) {
+      if (!ReverseProxyAuthManager.shouldLaunchAuthentication(url, reverseProxyAuthOpen)) {
         return;
       }
       reverseProxyAuthOpen = true;
-      ReverseProxyAuthManager.consumeAuthenticationRequest();
       Intent intent = new Intent(this, ReverseProxyAuthActivity.class);
       intent.putExtra(ReverseProxyAuthActivity.EXTRA_TARGET_URL, url);
       reverseProxyAuthLauncher.launch(intent);

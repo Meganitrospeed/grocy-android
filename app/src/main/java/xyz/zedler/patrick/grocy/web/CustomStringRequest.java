@@ -62,7 +62,7 @@ public class CustomStringRequest extends StringRequest {
               onLoadingListener.onLoadingChanged(false);
             }
           }
-          if (ReverseProxyAuthManager.handleResponse(url, response)) {
+          if (ReverseProxyAuthRequestInterceptor.intercept(url, response, errorListener)) {
             return;
           }
           listener.onResponse(response);

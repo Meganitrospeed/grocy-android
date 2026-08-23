@@ -36,6 +36,18 @@ public final class ReverseProxyAuthManager {
     authenticationRequired.setValue(null);
   }
 
+  /** Consumes every delivered challenge, but only opens a new flow when none is active. */
+  public static boolean shouldLaunchAuthentication(
+      @Nullable String serverUrl,
+      boolean authenticationOpen
+  ) {
+    if (serverUrl == null) {
+      return false;
+    }
+    consumeAuthenticationRequest();
+    return !authenticationOpen;
+  }
+
   public static boolean handleResponse(String requestUrl, @Nullable String response) {
     if (!isConfiguredServerRequest(requestUrl) || !ReverseProxyAuthDetector.looksLikeLoginPage(response)) {
       return false;
@@ -44,7 +56,7 @@ public final class ReverseProxyAuthManager {
     return true;
   }
 
-  private static boolean isConfiguredServerRequest(String requestUrl) {
+  static boolean isConfiguredServerRequest(String requestUrl) {
     if (configuredServer == null) {
       return false;
     }
