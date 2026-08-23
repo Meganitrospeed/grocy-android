@@ -65,6 +65,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
   private final DecoratedBarcodeView barcodeView;
   private final ZXingScanCaptureManager capture;
   private final SharedPreferences sharedPrefs;
+  private final ScanFeedbackPlayer scanFeedbackPlayer;
   private boolean suppressNextScanStart = false;
   private final boolean qrCodeFormat;
   private final boolean qrCodeFilter;
@@ -83,6 +84,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
     this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(fragment.requireContext());
     this.qrCodeFormat = qrCodeFormat;
     this.qrCodeFilter = qrCodeFilter;
+    scanFeedbackPlayer = new ScanFeedbackPlayer(fragment.requireContext());
 
     // set container size
     int width, height;
@@ -199,6 +201,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
 
   public void onDestroy() {
     stopScanner();
+    scanFeedbackPlayer.release();
     barcodeView.setTorchOff();
     lockOrUnlockRotation(false);
   }
@@ -228,7 +231,6 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
       startScannerIfVisible();
       return;
     }
-
     int promptCount = sharedPrefs.getInt(PREF.ZXING_PROMPT, 1);
     if (promptCount > 0 && promptCount < 15) {
       sharedPrefs.edit().putInt(PREF.ZXING_PROMPT, promptCount + 1).apply();
@@ -236,7 +238,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
       ((MainActivity) this.fragment.requireActivity())
           .showBottomSheet(new ZXingPromptBottomSheet());
     }
-
+    scanFeedbackPlayer.play();
     barcodeListener.onBarcodeRecognized(result.getText());
   }
 

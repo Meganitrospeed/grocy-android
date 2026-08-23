@@ -213,6 +213,70 @@
 
           <TextView
             style="@style/Widget.Grocy.TextView.Category"
+            android:text="@string/category_scanner_feedback" />
+
+          <LinearLayout
+            style="@style/Widget.Grocy.LinearLayout.ListItem.TwoLine.Clickable.More"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{v -> switchSoundFeedback.setChecked(!switchSoundFeedback.isChecked())}">
+
+            <ImageView
+              style="@style/Widget.Grocy.ImageView.ListItem.Icon"
+              tools:ignore="ContentDescription"
+              android:src="@drawable/ic_round_notification_important" />
+
+            <LinearLayout style="@style/Widget.Grocy.LinearLayout.ListItem.TextBox.Stretch">
+
+              <TextView
+                style="@style/Widget.Grocy.TextView.ListItem.Title"
+                android:text="@string/setting_scanner_sound_feedback" />
+
+              <TextView
+                style="@style/Widget.Grocy.TextView.ListItem.Description"
+                android:text="@string/setting_scanner_sound_feedback_description" />
+
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+              android:id="@+id/switch_sound_feedback"
+              style="@style/Widget.Grocy.Switch"
+              android:checked="@={viewModel.scannerSoundFeedbackEnabled}" />
+
+          </LinearLayout>
+
+          <LinearLayout
+            style="@style/Widget.Grocy.LinearLayout.ListItem.TwoLine.Clickable.More"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{v -> switchVibrationFeedback.setChecked(!switchVibrationFeedback.isChecked())}">
+
+            <ImageView
+              style="@style/Widget.Grocy.ImageView.ListItem.Icon"
+              tools:ignore="ContentDescription"
+              android:src="@drawable/ic_round_vibration_anim" />
+
+            <LinearLayout style="@style/Widget.Grocy.LinearLayout.ListItem.TextBox.Stretch">
+
+              <TextView
+                style="@style/Widget.Grocy.TextView.ListItem.Title"
+                android:text="@string/setting_scanner_vibration_feedback" />
+
+              <TextView
+                style="@style/Widget.Grocy.TextView.ListItem.Description"
+                android:text="@string/setting_scanner_vibration_feedback_description" />
+
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+              android:id="@+id/switch_vibration_feedback"
+              style="@style/Widget.Grocy.Switch"
+              android:checked="@={viewModel.scannerVibrationFeedbackEnabled}" />
+
+          </LinearLayout>
+
+          <TextView
+            style="@style/Widget.Grocy.TextView.Category"
             android:text="@string/category_scanner_external" />
 
           <LinearLayout

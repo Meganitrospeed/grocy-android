@@ -98,6 +98,8 @@ public class SettingsCatScannerFragment extends BaseFragment {
     binding.switchFrontCam.post(() -> {
       binding.switchFrontCam.jumpDrawablesToCurrentState();
       binding.switchScannerFormat.jumpDrawablesToCurrentState();
+      binding.switchSoundFeedback.jumpDrawablesToCurrentState();
+      binding.switchVibrationFeedback.jumpDrawablesToCurrentState();
       binding.switchExternalScanner.jumpDrawablesToCurrentState();
     });
 

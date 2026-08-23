@@ -29,6 +29,8 @@ camera-core = "1.6.0"
 camera-mlkit = "1.6.0"
 mlkit = "17.3.0"
 guava = "33.3.1-android"
+junit = "4.13.2"
+archCoreTesting = "2.2.0"
 
 [libraries]
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -78,6 +80,8 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 camera-mlkit = { group = "androidx.camera", name = "camera-mlkit-vision", version.ref = "camera-mlkit" }
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "mlkit" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+junit = { module = "junit:junit", version.ref = "junit" }
+arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCoreTesting" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

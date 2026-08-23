@@ -59,7 +59,6 @@ import xyz.zedler.patrick.grocy.Constants.SETTINGS.SCANNER;
 import xyz.zedler.patrick.grocy.Constants.SETTINGS_DEFAULT;
 import xyz.zedler.patrick.grocy.R;
 import xyz.zedler.patrick.grocy.activity.MainActivity;
-import xyz.zedler.patrick.grocy.util.HapticUtil;
 import xyz.zedler.patrick.grocy.util.ResUtil;
 import xyz.zedler.patrick.grocy.util.UiUtil;
 
@@ -78,6 +77,7 @@ public class EmbeddedFragmentScannerMLKit extends EmbeddedFragmentScanner {
   private final Fragment fragment;
   private final MainActivity activity;
   private final BarcodeListener barcodeListener;
+  private final ScanFeedbackPlayer scanFeedbackPlayer;
   private boolean suppressNextScanStart = false;
   private final boolean qrCodeFormat;
   private final boolean qrCodeFilter;
@@ -95,6 +95,7 @@ public class EmbeddedFragmentScannerMLKit extends EmbeddedFragmentScanner {
     this.fragment = fragment;
     this.activity = (MainActivity) fragment.requireActivity();
     this.barcodeListener = barcodeListener;
+    scanFeedbackPlayer = new ScanFeedbackPlayer(fragment.requireContext());
     this.qrCodeFormat = qrCodeFormat;
     this.qrCodeFilter = qrCodeFilter;
     sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -215,6 +216,7 @@ public class EmbeddedFragmentScannerMLKit extends EmbeddedFragmentScanner {
 
   public void onDestroy() {
     stopScanner();
+    scanFeedbackPlayer.release();
     if (cameraController != null && cameraController.getCameraInfo() != null
         && cameraController.getCameraInfo().hasFlashUnit()) {
       cameraController.enableTorch(false);
@@ -292,7 +294,7 @@ public class EmbeddedFragmentScannerMLKit extends EmbeddedFragmentScanner {
       }
     }
 
-    new HapticUtil(activity).tick();
+    scanFeedbackPlayer.play();
     stopScanner();
 
     if (barcodeListener != null) {
