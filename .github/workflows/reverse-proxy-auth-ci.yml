@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feature/reverse-proxy-web-auth
+  pull_request:
+    branches:
+      - master
 
 jobs:
   test:
