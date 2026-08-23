@@ -55,6 +55,7 @@ import xyz.zedler.patrick.grocy.model.InfoFullscreen;
 import xyz.zedler.patrick.grocy.util.ConfigUtil;
 import xyz.zedler.patrick.grocy.util.PrefsUtil;
 import xyz.zedler.patrick.grocy.web.NetworkQueue.QueueItem;
+import xyz.zedler.patrick.grocy.web.ReverseProxyAuthDetector;
 
 public class LoginRequestViewModel extends BaseViewModel {
 
@@ -409,11 +410,7 @@ public class LoginRequestViewModel extends BaseViewModel {
     if (response == null) {
       return false;
     }
-    String lower = response.toLowerCase(java.util.Locale.ROOT);
-    return lower.contains("<!doctype html")
-        || lower.contains("<html")
-        || lower.contains("outpost.goauthentik.io")
-        || lower.contains("/if/flow/");
+    return ReverseProxyAuthDetector.looksLikeLoginPage(response);
   }
 
   private static boolean looksLikeInteractiveLogin(com.android.volley.VolleyError error) {
