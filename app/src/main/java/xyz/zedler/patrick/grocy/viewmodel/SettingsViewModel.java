@@ -379,6 +379,28 @@ public class SettingsViewModel extends BaseViewModel {
     sharedPrefs.edit().putBoolean(Constants.SETTINGS.SCANNER.SCANNER_FORMAT_2D, enabled).apply();
   }
 
+  public boolean getScannerSoundFeedbackEnabled() {
+    return sharedPrefs.getBoolean(
+        SCANNER.SOUND_FEEDBACK,
+        Constants.SETTINGS_DEFAULT.SCANNER.SOUND_FEEDBACK
+    );
+  }
+
+  public void setScannerSoundFeedbackEnabled(boolean enabled) {
+    sharedPrefs.edit().putBoolean(SCANNER.SOUND_FEEDBACK, enabled).apply();
+  }
+
+  public boolean getScannerVibrationFeedbackEnabled() {
+    return sharedPrefs.getBoolean(
+        SCANNER.VIBRATION_FEEDBACK,
+        Constants.SETTINGS_DEFAULT.SCANNER.VIBRATION_FEEDBACK
+    );
+  }
+
+  public void setScannerVibrationFeedbackEnabled(boolean enabled) {
+    sharedPrefs.edit().putBoolean(SCANNER.VIBRATION_FEEDBACK, enabled).apply();
+  }
+
   public void showBarcodeFormatsBottomSheet() {
     showBottomSheet(new BarcodeFormatsBottomSheet());
   }

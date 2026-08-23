@@ -1171,6 +1171,7 @@
   <string name="category_scanner">Scanner</string>
   <string name="category_scanner_camera">Camera scanner</string>
   <string name="category_scanner_external">External scanner</string>
+  <string name="category_scanner_feedback">Scan feedback</string>
   <string name="category_appearance">Appearance</string>
   <string name="category_network">Network</string>
   <string name="category_network_proxy">Proxy</string>
@@ -1223,6 +1224,10 @@
   <string name="setting_barcode_formats_description">Limit to: %1$s</string>
   <string name="setting_barcode_formats_description_all">Not restricted</string>
   <string name="setting_external_support">External scanner support</string>
+  <string name="setting_scanner_sound_feedback">Sound feedback</string>
+  <string name="setting_scanner_sound_feedback_description">Play a sound after scanning a barcode</string>
+  <string name="setting_scanner_vibration_feedback">Vibration feedback</string>
+  <string name="setting_scanner_vibration_feedback_description">Vibrate after scanning a barcode</string>
   <string name="setting_external_support_description">Via USB or Bluetooth</string>
   <string name="setting_reload_config">Reload configuration</string>
   <string name="setting_reload_config_description">App restart required</string>
