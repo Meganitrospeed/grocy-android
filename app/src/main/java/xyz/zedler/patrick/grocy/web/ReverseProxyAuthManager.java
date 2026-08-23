@@ -12,22 +12,20 @@
 
 package xyz.zedler.patrick.grocy.web;
 
-import android.net.Uri;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import java.util.Locale;
 
 /** Coordinates reauthentication when an API response is replaced by a proxy login page. */
 public final class ReverseProxyAuthManager {
 
   private static final MutableLiveData<String> authenticationRequired = new MutableLiveData<>();
-  private static Uri configuredServer;
+  private static String configuredServer;
 
   private ReverseProxyAuthManager() {}
 
   public static void configure(@Nullable String serverUrl) {
-    configuredServer = serverUrl == null || serverUrl.isEmpty() ? null : Uri.parse(serverUrl);
+    configuredServer = serverUrl == null || serverUrl.isEmpty() ? null : serverUrl;
   }
 
   public static LiveData<String> getAuthenticationRequired() {
@@ -39,40 +37,17 @@ public final class ReverseProxyAuthManager {
   }
 
   public static boolean handleResponse(String requestUrl, @Nullable String response) {
-    if (!isConfiguredServerRequest(requestUrl) || !looksLikeLoginPage(response)) {
+    if (!isConfiguredServerRequest(requestUrl) || !ReverseProxyAuthDetector.looksLikeLoginPage(response)) {
       return false;
     }
-    authenticationRequired.postValue(configuredServer.toString());
+    authenticationRequired.postValue(configuredServer);
     return true;
-  }
-
-  public static boolean looksLikeLoginPage(@Nullable String response) {
-    if (response == null) {
-      return false;
-    }
-    String lower = response.toLowerCase(Locale.ROOT);
-    return lower.contains("<!doctype html")
-        || lower.contains("<html")
-        || lower.contains("outpost.goauthentik.io")
-        || lower.contains("/if/flow/");
   }
 
   private static boolean isConfiguredServerRequest(String requestUrl) {
     if (configuredServer == null) {
       return false;
     }
-    Uri request = Uri.parse(requestUrl);
-    return configuredServer.getScheme() != null
-        && configuredServer.getScheme().equalsIgnoreCase(request.getScheme())
-        && configuredServer.getHost() != null
-        && configuredServer.getHost().equalsIgnoreCase(request.getHost())
-        && effectivePort(configuredServer) == effectivePort(request);
-  }
-
-  private static int effectivePort(Uri uri) {
-    if (uri.getPort() >= 0) {
-      return uri.getPort();
-    }
-    return "https".equalsIgnoreCase(uri.getScheme()) ? 443 : 80;
+    return ReverseProxyAuthDetector.isSameOrigin(configuredServer, requestUrl);
   }
 }
