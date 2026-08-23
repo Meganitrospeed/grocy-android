@@ -59,6 +59,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
   private final BarcodeListener barcodeListener;
   private final DecoratedBarcodeView barcodeView;
   private final ZXingScanCaptureManager capture;
+  private final ScanFeedbackPlayer scanFeedbackPlayer;
   private boolean suppressNextScanStart = false;
   private final boolean qrCodeFormat;
   private final boolean qrCodeFilter;
@@ -76,6 +77,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
     this.barcodeListener = barcodeListener;
     this.qrCodeFormat = qrCodeFormat;
     this.qrCodeFilter = qrCodeFilter;
+    scanFeedbackPlayer = new ScanFeedbackPlayer(fragment.requireContext());
 
     // set container size
     int width, height;
@@ -192,6 +194,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
 
   public void onDestroy() {
     stopScanner();
+    scanFeedbackPlayer.release();
     barcodeView.setTorchOff();
     lockOrUnlockRotation(false);
   }
@@ -221,6 +224,7 @@ public class EmbeddedFragmentScannerZXing extends EmbeddedFragmentScanner implem
       startScannerIfVisible();
       return;
     }
+    scanFeedbackPlayer.play();
     barcodeListener.onBarcodeRecognized(result.getText());
   }
 

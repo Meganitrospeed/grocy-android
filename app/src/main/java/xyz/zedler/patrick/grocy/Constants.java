@@ -184,6 +184,8 @@ public final class Constants {
       public final static String SCANNER_FORMAT_2D = "scanner_format_2d";
       public final static String BARCODE_FORMATS = "barcode_formats";
       public final static String EXTERNAL_SCANNER = "external_scanner";
+      public final static String SOUND_FEEDBACK = "scanner_sound_feedback";
+      public final static String VIBRATION_FEEDBACK = "scanner_vibration_feedback";
     }
 
     public final static class STOCK {
@@ -305,6 +307,8 @@ public final class Constants {
           BarcodeFormats.BARCODE_FORMAT_RSSE
       ));
       public final static boolean EXTERNAL_SCANNER = false;
+      public final static boolean SOUND_FEEDBACK = false;
+      public final static boolean VIBRATION_FEEDBACK = true;
     }
 
     public final static class STOCK {
