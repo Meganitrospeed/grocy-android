@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import xyz.zedler.patrick.grocy.web.ReverseProxyAuthDetector;
 
 /**
  * Hosts an interactive reverse-proxy login and returns after the provider redirects back to Grocy.
@@ -92,7 +93,8 @@ public class ReverseProxyAuthActivity extends AppCompatActivity {
       public void onPageFinished(WebView view, String url) {
         progress.setVisibility(android.view.View.GONE);
         Uri current = Uri.parse(url);
-        if (sameOrigin(targetUri, current) && !isAuthenticationPath(current.getPath())) {
+        if (ReverseProxyAuthDetector.isSameOrigin(targetUri.toString(), current.toString())
+            && !ReverseProxyAuthDetector.isAuthenticationPath(current.getPath())) {
           CookieManager.getInstance().flush();
           setResult(Activity.RESULT_OK);
           finish();
@@ -113,26 +115,6 @@ public class ReverseProxyAuthActivity extends AppCompatActivity {
       webView = null;
     }
     super.onDestroy();
-  }
-
-  private static boolean sameOrigin(Uri first, Uri second) {
-    return first.getScheme() != null
-        && first.getScheme().equalsIgnoreCase(second.getScheme())
-        && first.getHost() != null
-        && first.getHost().equalsIgnoreCase(second.getHost())
-        && effectivePort(first) == effectivePort(second);
-  }
-
-  private static int effectivePort(Uri uri) {
-    if (uri.getPort() >= 0) {
-      return uri.getPort();
-    }
-    return "https".equalsIgnoreCase(uri.getScheme()) ? 443 : 80;
-  }
-
-  private static boolean isAuthenticationPath(@Nullable String path) {
-    return path != null && (path.startsWith("/outpost.goauthentik.io/")
-        || path.startsWith("/if/flow/"));
   }
 
   private static boolean isHttp(Uri uri) {
